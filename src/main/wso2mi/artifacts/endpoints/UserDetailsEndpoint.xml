@@ -1,0 +1,3 @@
+<endpoint xmlns="http://ws.apache.org/ns/synapse" name="UserDetailsEndpoint">
+    <http uri-template="https://jsonplaceholder.typicode.com/users/{uri.var.userId}" method="get"/>
+</endpoint>

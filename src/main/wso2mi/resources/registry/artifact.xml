@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<artifacts>
+  <artifact name="PayloadConversion" groupId="com.microintegrator.projects" version="1.0.0" type="registry/resource" serverRole="EnterpriseIntegrator">
+    <item>
+      <file>PayloadConversion.dmc</file>
+      <path>/_system/governance/datamapper/PayloadConversion</path>
+      <mediaType>text/plain</mediaType>
+      <properties></properties>
+    </item>
+  </artifact>
+  <artifact name="PayloadConversion_inputSchema" groupId="com.microintegrator.projects" version="1.0.0" type="registry/resource" serverRole="EnterpriseIntegrator">
+    <item>
+      <file>PayloadConversion_inputSchema.json</file>
+      <path>/_system/governance/datamapper/PayloadConversion</path>
+      <mediaType>text/plain</mediaType>
+      <properties></properties>
+    </item>
+  </artifact>
+  <artifact name="PayloadConversion_outputSchema" groupId="com.microintegrator.projects" version="1.0.0" type="registry/resource" serverRole="EnterpriseIntegrator">
+    <item>
+      <file>PayloadConversion_outputSchema.json</file>
+      <path>/_system/governance/datamapper/PayloadConversion</path>
+      <mediaType>text/plain</mediaType>
+      <properties/>
+    </item>
+  </artifact>
+</artifacts>

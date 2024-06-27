@@ -1,0 +1,4 @@
+deployment/deployment.toml
+deployment/docker/Dockerfile
+deployment/docker/resources/client-truststore.jks
+deployment/docker/resources/wso2carbon.jks

@@ -1,0 +1,46 @@
+<api xmlns="http://ws.apache.org/ns/synapse" name="UserDetailsAPI" context="/user">
+    <resource methods="POST" uri-template="/details">
+        <inSequence>
+            <!-- Step 1: Store the initial request's 'name' value -->
+            <property name="requestName" expression="json-eval($.name)" scope="default" type="STRING"/>
+            
+            <!-- Extract 'id' from the JSON payload -->
+            <property name="id" expression="json-eval($.id)" scope="default" type="STRING"/>
+            <property name="uri.var.userId" expression="get-property('id')" scope="default" type="STRING"/>
+            
+            <!-- Call the backend service using the externalized endpoint -->
+            <call>
+                <endpoint key="UserDetailsEndpoint"/>
+            </call>
+            
+            <!-- Step 2: Extract 'name' from the response -->
+            <property name="responseName" expression="json-eval($.name)" scope="default" type="STRING"/>
+            
+            <!-- Step 3: Compare the 'name' values -->
+			<filter xpath="get-property('requestName') = get-property('responseName')">
+                <then>
+					<log category="INFO" level="simple">
+						<property name="Message" value="The names match"/>
+						<property name="requestName" expression="get-property('requestName')"/>
+						<property name="responseName" expression="get-property('responseName')"/>
+					</log>
+					<datamapper config="gov:/datamapper/PayloadConversion/PayloadConversion.dmc" inputSchema="gov:/datamapper/PayloadConversion/PayloadConversion_inputSchema.json" inputType="JSON" outputSchema="gov:/datamapper/PayloadConversion/PayloadConversion_outputSchema.json" outputType="JSON"/>
+				</then>
+                <else>
+                    <log level="custom">
+						<property name="Message" value="The names do not match"/>
+                        <property name="requestName" expression="get-property('requestName')"/>
+						<property name="responseName" expression="get-property('responseName')"/>
+					</log>
+					<payloadFactory media-type="json" template-type="default">
+						<format>{"Error":"User name and ID mismatched"}</format>
+						<args>
+						</args>
+					</payloadFactory>
+				</else>
+			</filter>
+			<!-- Respond back to the client -->
+            <respond/>
+        </inSequence>
+    </resource>
+</api>
