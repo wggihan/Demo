@@ -1,22 +1,19 @@
 <api xmlns="http://ws.apache.org/ns/synapse" name="UserDetailsAPI" context="/user">
     <resource methods="POST" uri-template="/details">
         <inSequence>
-            <!-- Step 1: Store the initial request's 'name' value -->
+			<property name="Accept-Encoding" scope="transport" action="remove"/>
+			<!-- Step 1: Store the initial request's 'name' value -->
             <property name="requestName" expression="json-eval($.name)" scope="default" type="STRING"/>
-            
-            <!-- Extract 'id' from the JSON payload -->
+			<!-- Extract 'id' from the JSON payload -->
             <property name="id" expression="json-eval($.id)" scope="default" type="STRING"/>
             <property name="uri.var.userId" expression="get-property('id')" scope="default" type="STRING"/>
-            
-            <!-- Call the backend service using the externalized endpoint -->
+			<!-- Call the backend service using the externalized endpoint -->
             <call>
                 <endpoint key="UserDetailsEndpoint"/>
-            </call>
-            
-            <!-- Step 2: Extract 'name' from the response -->
+			</call>
+			<!-- Step 2: Extract 'name' from the response -->
             <property name="responseName" expression="json-eval($.name)" scope="default" type="STRING"/>
-            
-            <!-- Step 3: Compare the 'name' values -->
+			<!-- Step 3: Compare the 'name' values -->
 			<filter xpath="get-property('requestName') = get-property('responseName')">
                 <then>
 					<log category="INFO" level="simple">
@@ -41,6 +38,6 @@
 			</filter>
 			<!-- Respond back to the client -->
             <respond/>
-        </inSequence>
+		</inSequence>
     </resource>
 </api>
